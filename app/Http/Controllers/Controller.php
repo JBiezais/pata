@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\WorkOrder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -16,7 +17,8 @@ class Controller extends BaseController
     public function index(): \Inertia\Response
     {
         return Inertia::render('Dashboard', [
-            'workOrders' =>  WorkOrder::all()
+            'workOrders' =>  WorkOrder::all(),
+            'users' => User::all()
         ]);
     }
 }

@@ -22,15 +22,45 @@
                                 </div>
                             </div>
                         </div>
+                        <h1 class="text-2xl text-gray-700 font-bold">Users</h1>
+                        <div class="border border-green-700 rounded-xl p-3 w-full">
+                            <div class="top-0 sticky">
+                                <div class="border-b border-green-700 py-2 px-5 bg-gray-100 rounded-t-xl grid grid-cols-3">
+                                    <h1>Name, Last name</h1>
+                                    <h1 class="hidden md:block">Email</h1>
+                                </div>
+                            </div>
+                            <div v-for="user in users">
+                                <div class="grid grid-cols-3 border-b border-green-700 py-2 px-5" v-if="user.id !== $page.props.auth.user.id">
+                                    <h1 class="my-auto">{{user.name}}, {{user.lastName}}</h1>
+                                    <h1 class="my-auto hidden md:block">{{user.email}}</h1>
+                                    <div class="flex space-x-4">
+                                        <div class="flex-grow"></div>
+                                        <h1 class="border border-red-600 rounded-xl py-1 px-3 cursor-pointer bg-white text-red-600 hover:text-white hover:bg-red-600" @click="deleteUser(user.id)">Delete</h1>
+                                        <h1 class="border border-blue-600 rounded-xl py-1 px-3 cursor-pointer bg-white text-blue-600 hover:text-white hover:bg-blue-600" @click="activeUserForm = user">Edit</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-full bg-gray-100 flex rounded-b-xl py-2 cursor-pointer" @click="activeUserForm = true">
+                                <h1 class="mx-auto">Create new</h1>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="fixed z-10 top-0 h-screen" v-if="activeWorkOrder">
-            <div class="w-screen h-screen flex bg-gray-900 opacity-60 relative" @click="activeWorkOrder = false">
+        <div class="fixed z-10 top-0 h-screen" v-if="activeWorkOrder || activeUserForm">
+            <div class="w-screen h-screen flex bg-gray-900 opacity-60 relative" @click="activeWorkOrder = false; activeUserForm = false">
             </div>
             <div class="absolute inset-y-1/8 md:inset-1/4 h-3/4 md:h-1/2 w-full md:w-1/2 rounded-xl bg-gray-200 p-10 flex overflow-hidden overflow-scroll">
-                <WorkOrderForm :workOrder="activeWorkOrder"></WorkOrderForm>
+                <WorkOrderForm :workOrder="activeWorkOrder" v-if="activeWorkOrder"></WorkOrderForm>
+                <div class="m-auto space-y-5" v-if="activeUserForm === true">
+                    <ApplicationLogo class="mx-auto"></ApplicationLogo>
+                    <CreateUserForm></CreateUserForm>
+                </div>
+                <div v-if="typeof(activeUserForm) === 'object'" class="m-auto">
+                    <UpdateProfileInformationForm :user="activeUserForm"></UpdateProfileInformationForm>
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>
@@ -40,9 +70,16 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import WorkOrderForm from "@/Components/WorkOrderForm.vue";
+import {Inertia} from "@inertiajs/inertia";
+import CreateUserForm from "@/Components/CreateUserForm.vue";
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import UpdateProfileInformationForm from "@/Pages/Profile/Partials/UpdateProfileInformationForm.vue";
 
 export default {
     components:{
+        UpdateProfileInformationForm,
+        ApplicationLogo,
+        CreateUserForm,
         WorkOrderForm,
         AuthenticatedLayout, Head
     },
@@ -52,7 +89,16 @@ export default {
     },
     data(){
         return{
-            activeWorkOrder: false
+            activeWorkOrder: false,
+            activeUserForm: false
+        }
+    },
+    methods:{
+        deleteUser(id){
+            Inertia.visit('/profile', {
+                method: 'delete',
+                data: {id: id},
+            })
         }
     }
 }

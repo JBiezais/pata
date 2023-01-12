@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,15 +30,26 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if(isset($request->id)){
+            $id = $request->id;
+        }else{
+            $id = $request->user()->id;
         }
 
-        $request->user()->save();
+        $data = User::find($id);
+        $data->fill($request->validated());
 
-        return Redirect::route('profile.edit');
+        if ($data->isDirty('email')) {
+            $data->email_verified_at = null;
+        }
+
+        $data->save();
+
+        if(isset($request->id)){
+            return Redirect::to('/');
+        }else{
+            return Redirect::route('profile.edit');
+        }
     }
 
     /**
@@ -45,18 +57,22 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validate([
-            'password' => ['required', 'current-password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
+        if(isset($request->id)){
+            $user = User::find($request->id);
+        }else{
+            $request->validate([
+                'password' => ['required', 'current-password'],
+            ]);
+            $user = $request->user();
+            Auth::logout();
+        }
 
         $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        if(!isset($request->id)) {
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
 
         return Redirect::to('/');
     }
