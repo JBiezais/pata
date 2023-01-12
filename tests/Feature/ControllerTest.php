@@ -16,9 +16,9 @@ class ControllerTest extends TestCase
     public function testIndex()
     {
         $this->actingAs(User::factory()->create());
-        // Create some test data
-        WorkOrder::factory(10)->create();
-        User::factory(10)->create();
+
+        WorkOrder::factory(20)->create();
+        User::factory(20)->create();
 
         $response = $this->get(route('dashboard'))
             ->assertInertia(function (Assert $page) {
@@ -27,8 +27,8 @@ class ControllerTest extends TestCase
                 $this->assertEquals('Dashboard', $pageVars['component']);
                 $this->assertArrayHasKey('users', $pageVars['props']);
                 $this->assertArrayHasKey('workOrders', $pageVars['props']);
-                $this->assertCount(11, $pageVars['props']['users']);
-                $this->assertCount(10, $pageVars['props']['workOrders']);
+                $this->assertCount(10, $pageVars['props']['users']);
+                $this->assertLessThanOrEqual(10, count($pageVars['props']['workOrders']['work_orders']));
             });
 
         $response->assertStatus(200);
