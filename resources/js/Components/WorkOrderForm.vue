@@ -3,7 +3,7 @@
         <div class="lg:flex">
             <div class="w-full lg:w-3/5 space-y-3 p-2">
                 <img :src="formPhotoPreview" class="border mx-auto w-2/3 border-none rounded-xl" alt="photo" v-if="formPhotoPreview">
-                <img :src="workOrder.image_path" class="border mx-auto w-2/3 border-none rounded-xl" alt="photo" v-else-if="workOrder.image_path !== null">
+                <img :src="workOrder.image_path" class="border mx-auto w-2/3 border-none rounded-xl" alt="photo" v-else-if="this.workOrderForm.old_image_path !== null">
                 <div class="w-full flex">
                     <input class="mx-auto" type="file" ref="formPhotoUploadField" @change="updatePhotoPreview">
                     <div v-if="formPhotoPreview !== null || workOrderForm.old_image_path !== null"
