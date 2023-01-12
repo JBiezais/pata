@@ -24,8 +24,6 @@ class WorkOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'nullable|integer',
-            'user_id' => 'nullable|integer',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image_path' => 'nullable|max:2000|mimes:jpeg,jpg,png'

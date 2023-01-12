@@ -18,13 +18,10 @@ class WorkOrderFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::query()
-                        ->select('id')
-                        ->inRandomOrder()
-                        ->first()->id,
+            'user_id' => fake()->randomNumber(2, true),
             'title' => fake()->words(fake()->randomNumber(1), true),
             'description' => fake()->text,
-            'image_path' => null
+            'image_path' => 'workorder/7FmRiCh8WcDq62AT7P6LHkxg5u16S1izAmlCZafx.jpg'
         ];
     }
 }
