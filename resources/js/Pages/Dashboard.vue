@@ -31,11 +31,9 @@
                         </div>
                         <h1 class="text-2xl text-gray-700 font-bold">Users</h1>
                         <div class="border border-green-700 rounded-xl p-3 w-full">
-                            <div class="top-0 sticky">
-                                <div class="border-b border-green-700 py-2 px-5 bg-gray-100 rounded-t-xl grid grid-cols-3">
-                                    <h1>Name, Last name</h1>
-                                    <h1 class="hidden md:block">Email</h1>
-                                </div>
+                            <div class="border-b border-green-700 py-2 px-5 bg-gray-100 rounded-t-xl grid grid-cols-3">
+                                <h1>Name, Last name</h1>
+                                <h1 class="hidden md:block">Email</h1>
                             </div>
                             <div v-for="user in users">
                                 <div class="grid grid-cols-3 border-b border-green-700 py-2 px-5" v-if="user.id !== $page.props.auth.user.id">

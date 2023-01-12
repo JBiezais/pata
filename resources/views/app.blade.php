@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <link rel="icon" href="https://pata.lv/wp-content/uploads/2020/10/favicon.svg" sizes="32x32">
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
