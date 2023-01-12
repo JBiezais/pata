@@ -21,7 +21,7 @@
                                     <h1 class="text-xl font-semibold">Create new</h1>
                                 </div>
                             </div>
-                            <div class="md:col-span-2 xl:col-span-3 space-x-5 flex w-full">
+                            <div class="md:col-span-2 xl:col-span-3 space-x-5 flex w-full" v-if="workOrders.work_orders.length">
                                 <div class="flex mx-auto">
                                     <img v-if="Number(workOrdersOffset) > 0" class="h-8 cursor-pointer trasnform rotate-180" src="/image/img.png" alt="back" @click="getProps('workOrder',Number(workOrdersOffset)-10)">
                                     <h1 class="my-auto">{{Number(workOrdersOffset)+1}} - {{Number(workOrdersOffset) + workOrders.work_orders.length}}</h1>
@@ -49,7 +49,7 @@
                             <div class="w-full bg-gray-100 flex rounded-b-xl py-2 cursor-pointer" @click="activeUserForm = true">
                                 <h1 class="mx-auto">Create new</h1>
                             </div>
-                            <div class="w-full flex rounded-b-xl py-2 cursor-pointer">
+                            <div class="w-full flex rounded-b-xl py-2" v-if="users.length">
                                 <div class="flex mx-auto">
                                     <img v-if="Number(usersOffset) > 0" class="h-8 cursor-pointer trasnform rotate-180" src="/image/img.png" alt="back" @click="getProps('user', Number(usersOffset)-10)">
                                     <h1 class="my-auto">{{Number(usersOffset)+1}} - {{Number(usersOffset) + users.length}}</h1>
